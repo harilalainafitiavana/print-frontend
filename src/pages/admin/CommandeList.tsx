@@ -22,34 +22,11 @@ export default function AdminCommande() {
   useEffect(() => {
     async function loadOrders() {
       try {
-        const token = localStorage.getItem('access_token');
-
-        if (!token) {
-          console.error("❌ Pas de token trouvé!");
-          // Rediriger vers la connexion
-          window.location.href = '/login';
-          return;
-        }
-
-        const res = await fetch(`${API_BASE_URL}/api/admin/commandes/`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (res.status === 401) {
-          // Token expiré, déconnecter
-          localStorage.removeItem('access_token');
-          window.location.href = '/login';
-          return;
-        }
-
+        const res = await authFetch(`${API_BASE_URL}/api/admin/commandes/`);
         const data = await res.json();
         setOrders(data);
       } catch (err: any) {
-        console.error("Erreur détaillée:", err);
-        alert("Erreur de chargement: " + err.message);
+        alert(err.message);
       }
     }
     loadOrders();
@@ -300,14 +277,14 @@ export default function AdminCommande() {
                         </button>
 
                         {/* Télécharger */}
-                        <a
+                        {/* <a
                           href={`${API_BASE_URL}/download/${selectedOrder.fichiers[0]?.id}/`}
                           download
                           className="bg-indigo-500 text-white p-3 rounded-lg flex flex-col items-center gap-1 hover:bg-indigo-600"
                         >
                           <Download size={24} />
                           <span>{t("orders.actions.download")}</span>
-                        </a>
+                        </a> */}
 
                         {/* Voir détails */}
                         <button
@@ -393,12 +370,12 @@ export default function AdminCommande() {
                 </div>
 
                 <div>
-                  <a
+                  {/* <a
                     href={`${API_BASE_URL}/download/${f.id}/`}
                     className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-all"
                   >
                     <Download size={16} /> {t("orders.actions.download")}
-                  </a>
+                  </a> */}
                 </div>
               </div>
             ))}
