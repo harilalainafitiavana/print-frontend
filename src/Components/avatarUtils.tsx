@@ -1,33 +1,23 @@
 interface User {
-    profils?: string | null;  // Image Cloudinary
+    profils?: string | null;  // Image Cloudinary (URL complète maintenant)
     google_avatar_url?: string;
 }
 
-export const getAvatarUrl = (user: User | null): string | null => {
-    if (!user) return null;
+export const getAvatarUrl = (user: User | null): string => {
+    if (!user) return '/default-avatar.png';  // Retourne toujours un string
 
-    // 1️⃣ Priorité à l'avatar Google
+    // 1️⃣ Priorité à l'avatar Google (inchangé)
     if (user.google_avatar_url) {
         return user.google_avatar_url;
     }
 
-    // 2️⃣ Si l'utilisateur a une image Cloudinary
+    // 2️⃣ Image Cloudinary - SIMPLIFIÉ
     if (user.profils) {
-        // Si c'est déjà une URL complète (Cloudinary)
-        if (user.profils.startsWith('http')) {
-            return user.profils;
-        }
-
-        // Cas rare : chemin encodé (ex: avant migration Cloudinary)
-        if (user.profils.includes('https%3A') || user.profils.includes('http%3A')) {
-            const decodedUrl = decodeURIComponent(user.profils.replace('/media/', ''));
-            return decodedUrl.replace('https:/', 'https://').replace('http:/', 'http://');
-        }
-
-        // ⚠️ Pas de placeholder ici car Cloudinary doit renvoyer une URL complète
-        return null;
+        // Avec Cloudinary, c'est TOUJOURS une URL complète
+        // Exemple: "https://res.cloudinary.com/votre-compte/image/upload/..."
+        return user.profils;
     }
 
-    // 3️⃣ Pas d'image
-    return null; // ou "/placeholder.png" si tu veux
+    // 3️⃣ Pas d'image → placeholder
+    return '/default-avatar.png';
 };

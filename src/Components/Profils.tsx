@@ -119,8 +119,8 @@ export default function Profils() {
             if (res.ok) {
                 const responseData = await res.json();
                 alert("Photo modifiée avec succès!");
-                const fullUrl = `${API_BASE_URL}${responseData.profils}`;
-                setUserProfilUrl(fullUrl);
+                // SUPPRIMEZ la ligne avec ${API_BASE_URL}
+                setUserProfilUrl(responseData.profils); // Cloudinary donne déjà l'URL complète
                 setFormData({ ...formData, photo: null });
             } else {
                 const errorText = await res.text();
@@ -169,14 +169,14 @@ export default function Profils() {
             number: /\d/.test(password),
             special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
         };
-        
+
         const score = Object.values(validations).filter(Boolean).length;
-        
+
         setPasswordValidation({
             ...validations,
             score: score
         });
-        
+
         const isValid = Object.values(validations).every(Boolean);
         setIsPasswordValid(isValid);
         return isValid;
@@ -233,13 +233,13 @@ export default function Profils() {
                     score: 0
                 });
                 setIsPasswordValid(false);
-                
+
                 // Auto-clear le message de succès après 5 secondes
                 setTimeout(() => setPasswordSuccess(null), 5000);
             } else {
                 const errorText = await res.text();
                 console.error(errorText);
-                
+
                 // Gestion des erreurs spécifiques
                 if (errorText.includes("ancien mot de passe") || errorText.includes("Ancien mot de passe")) {
                     setPasswordError("L'ancien mot de passe est incorrect");
@@ -293,7 +293,7 @@ export default function Profils() {
                             <div className="flex flex-col items-center text-center mb-6">
                                 {/* Avatar avec effet hover et badge de modification */}
                                 <div className="relative mb-4 group">
-                                    <div 
+                                    <div
                                         className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300"
                                         onClick={openPhotoModal}
                                     >
@@ -305,7 +305,7 @@ export default function Profils() {
                                             />
                                         ) : userProfilUrl ? (
                                             <img
-                                                src={userProfilUrl.replace(/s\d+-c$/, 's400-c')}
+                                                src={userProfilUrl}
                                                 alt="Photo profil"
                                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                 crossOrigin="anonymous"
@@ -316,7 +316,7 @@ export default function Profils() {
                                                 }}
                                             />
                                         ) : (
-                                            <div 
+                                            <div
                                                 className="w-full h-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center text-gray-400 cursor-pointer"
                                                 onClick={openPhotoModal}
                                             >
@@ -544,8 +544,8 @@ export default function Profils() {
                                         <AlertCircle size={20} className="flex-shrink-0" />
                                         <span className="text-sm font-medium">{passwordError}</span>
                                     </div>
-                                    <button 
-                                        onClick={() => setPasswordError(null)} 
+                                    <button
+                                        onClick={() => setPasswordError(null)}
                                         className="text-red-600 hover:text-red-800 ml-auto"
                                     >
                                         ✕
@@ -559,8 +559,8 @@ export default function Profils() {
                                         <Check size={20} className="flex-shrink-0" />
                                         <span className="text-sm font-medium">{passwordSuccess}</span>
                                     </div>
-                                    <button 
-                                        onClick={() => setPasswordSuccess(null)} 
+                                    <button
+                                        onClick={() => setPasswordSuccess(null)}
                                         className="text-green-600 hover:text-green-800 ml-auto"
                                     >
                                         ✕
@@ -646,25 +646,23 @@ export default function Profils() {
                                             <div className="mt-3 space-y-2">
                                                 <div className="flex items-center justify-between mb-1">
                                                     <span className="text-xs text-gray-600">{t("profil.force")}</span>
-                                                    <span className={`text-xs font-medium ${
-                                                        passwordValidation.score <= 2 ? "text-red-600" :
-                                                        passwordValidation.score <= 4 ? "text-yellow-600" :
-                                                        "text-green-600"
-                                                    }`}>
+                                                    <span className={`text-xs font-medium ${passwordValidation.score <= 2 ? "text-red-600" :
+                                                            passwordValidation.score <= 4 ? "text-yellow-600" :
+                                                                "text-green-600"
+                                                        }`}>
                                                         {passwordValidation.score <= 2 ? "Faible" :
-                                                         passwordValidation.score <= 4 ? "Moyen" : "Fort"}
+                                                            passwordValidation.score <= 4 ? "Moyen" : "Fort"}
                                                     </span>
                                                 </div>
                                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                                     <div
-                                                        className={`h-2 rounded-full transition-all duration-300 ${
-                                                            passwordValidation.score <= 2 ? "bg-red-500" :
-                                                            passwordValidation.score <= 4 ? "bg-yellow-500" : "bg-green-500"
-                                                        }`}
+                                                        className={`h-2 rounded-full transition-all duration-300 ${passwordValidation.score <= 2 ? "bg-red-500" :
+                                                                passwordValidation.score <= 4 ? "bg-yellow-500" : "bg-green-500"
+                                                            }`}
                                                         style={{ width: `${(passwordValidation.score / 5) * 100}%` }}
                                                     ></div>
                                                 </div>
-                                                
+
                                                 {/* Liste des critères */}
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2">
                                                     <div className={`flex items-center gap-1 ${passwordValidation.length ? 'text-green-600' : 'text-gray-500'}`}>
@@ -740,8 +738,8 @@ export default function Profils() {
                                             transition-all duration-200
                                             disabled:opacity-50 disabled:cursor-not-allowed
                                             disabled:from-gray-400 disabled:to-gray-500 cursor-pointer"
-                                        disabled={!oldPassword || !newPassword || !confirmPassword || 
-                                                 newPassword !== confirmPassword || !isPasswordValid}
+                                        disabled={!oldPassword || !newPassword || !confirmPassword ||
+                                            newPassword !== confirmPassword || !isPasswordValid}
                                     >
                                         <Lock size={18} />
                                         <span>
@@ -776,11 +774,11 @@ export default function Profils() {
 
             {/* Modal pour afficher la photo en grand */}
             {showPhotoModal && (
-                <div 
+                <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4"
                     onClick={closePhotoModal}
                 >
-                    <div 
+                    <div
                         className="relative bg-base-100 rounded-2xl max-w-4xl max-h-[90vh] overflow-hidden"
                         onClick={handleModalClick}
                     >
@@ -791,7 +789,7 @@ export default function Profils() {
                         >
                             <X size={24} />
                         </button>
-                        
+
                         <div className="p-8 flex flex-col items-center">
                             <div className="w-full max-w-lg">
                                 {formData.photo ? (
@@ -802,7 +800,7 @@ export default function Profils() {
                                     />
                                 ) : userProfilUrl ? (
                                     <img
-                                        src={userProfilUrl.replace(/s\d+-c$/, 's800-c')}
+                                        src={userProfilUrl}
                                         alt="Photo profil"
                                         className="w-full h-auto max-h-[70vh] object-contain rounded-lg shadow-xl"
                                         crossOrigin="anonymous"
@@ -818,13 +816,13 @@ export default function Profils() {
                                     </div>
                                 )}
                             </div>
-                            
+
                             <div className="mt-6 text-center">
                                 <h3 className="text-xl font-bold text-base-content">
                                     {formData.prenom} {formData.nom}
                                 </h3>
                                 <p className="text-base-content mt-2">{formData.email}</p>
-                                
+
                                 <div className="mt-6 flex gap-4">
                                     <button
                                         onClick={() => {
@@ -846,7 +844,7 @@ export default function Profils() {
                                         </svg>
                                         Télécharger
                                     </button>
-                                    
+
                                     <label className="btn btn-primary gap-2 cursor-pointer">
                                         <Camera size={18} />
                                         Changer la photo
