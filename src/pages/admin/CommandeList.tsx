@@ -378,18 +378,25 @@ export default function AdminCommande() {
                   <p><strong>{t("orders.modal.size")} :</strong> {f.taille}</p>
                 </div>
 
-                <div>
-                  {/* Pour chaque fichier dans la modal de détails */}
-                  {f.fichier ? (
+                <div className="flex items-center">
+                  {f.fichier_url || (f.fichier && typeof f.fichier === 'object') ? (
                     <a
-                      href={`${API_BASE_URL}/download/${f.id}/`}
+                      href={f.fichier_url || `${API_BASE_URL}/download/${f.id}/`}
                       download
-                      className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-all"
+                      className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
                     >
-                      <Download size={16} /> {t("orders.actions.download")}
+                      <Download size={16} />
+                      <span>{t("orders.actions.download")}</span>
                     </a>
                   ) : (
-                    <span className="text-gray-500 text-sm italic">Fichier non disponible</span>
+                    <button
+                      disabled
+                      className="flex items-center gap-2 bg-gray-300 text-gray-500 font-semibold px-4 py-2 rounded-lg cursor-not-allowed border border-gray-400 opacity-75"
+                      title="Fichier indisponible pour le téléchargement"
+                    >
+                      <Download size={16} />
+                      <span>{t("orders.actions.download")}</span>
+                    </button>
                   )}
                 </div>
               </div>

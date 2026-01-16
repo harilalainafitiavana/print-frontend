@@ -38,6 +38,7 @@ const AdminUsersDashboard = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log("📦 Structure des données reçues:", data[0]); // Premier utilisateur
                     setUsers(data);
                 } else {
                     console.error("Erreur lors du chargement des utilisateurs :", response.statusText);
@@ -204,14 +205,14 @@ const AdminUsersDashboard = () => {
                         </thead>
                         <tbody className="divide-y divide-base-300">
                             {currentUsers.map((user) => (
-                                <tr 
-                                    key={user.id} 
+                                <tr
+                                    key={user.id}
                                     className="hover:bg-base-200 transition-colors duration-200"
                                 >
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
                                             {/* Photo de profil cliquable */}
-                                            <div 
+                                            <div
                                                 className="w-10 h-10 rounded-full overflow-hidden bg-primary/10 cursor-pointer hover:shadow-lg transition-shadow duration-200"
                                                 onClick={() => openPhotoModal(user)}
                                             >
@@ -302,7 +303,7 @@ const AdminUsersDashboard = () => {
                     <div className="text-sm text-base-content/70">
                         Affichage de {indexOfFirstUser + 1} à {Math.min(indexOfLastUser, filteredUsers.length)} sur {filteredUsers.length} utilisateurs
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                         <button
                             onClick={goToPrevPage}
@@ -312,7 +313,7 @@ const AdminUsersDashboard = () => {
                             <ChevronLeft size={16} />
                             {t("usersadmin.previous") || "Précédent"}
                         </button>
-                        
+
                         <div className="flex items-center gap-1">
                             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                                 let pageNum;
@@ -325,23 +326,22 @@ const AdminUsersDashboard = () => {
                                 } else {
                                     pageNum = currentPage - 2 + i;
                                 }
-                                
+
                                 return (
                                     <button
                                         key={pageNum}
                                         onClick={() => setCurrentPage(pageNum)}
-                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                                            currentPage === pageNum
+                                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${currentPage === pageNum
                                                 ? 'bg-primary text-white'
                                                 : 'hover:bg-base-300 text-base-content'
-                                        }`}
+                                            }`}
                                     >
                                         {pageNum}
                                     </button>
                                 );
                             })}
                         </div>
-                        
+
                         <button
                             onClick={goToNextPage}
                             disabled={currentPage === totalPages}
@@ -363,7 +363,7 @@ const AdminUsersDashboard = () => {
                             <div className="flex justify-between items-start mb-6">
                                 <div className="flex items-center gap-3">
                                     {/* Photo de profil cliquable */}
-                                    <div 
+                                    <div
                                         className="relative group w-20 h-20 rounded-full overflow-hidden border-4 border-primary/20 cursor-pointer hover:border-primary/40 transition-all duration-300"
                                         onClick={() => {
                                             closeModal();
@@ -401,11 +401,10 @@ const AdminUsersDashboard = () => {
                                             {selectedUser.prenom} {selectedUser.nom}
                                         </h2>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                selectedUser.role === 'ADMIN' 
-                                                    ? 'bg-primary/20 text-primary' 
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${selectedUser.role === 'ADMIN'
+                                                    ? 'bg-primary/20 text-primary'
                                                     : 'bg-base-300 text-base-content/70'
-                                            }`}>
+                                                }`}>
                                                 {selectedUser.role || 'UTILISATEUR'}
                                             </span>
                                             <span className="text-sm text-base-content/60">
@@ -533,11 +532,11 @@ const AdminUsersDashboard = () => {
 
             {/* Modal pour afficher la photo en grand */}
             {isPhotoModalOpen && selectedUser && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4"
                     onClick={closePhotoModal}
                 >
-                    <div 
+                    <div
                         className="relative bg-base-100 rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
                         onClick={handlePhotoModalClick}
                     >
@@ -548,7 +547,7 @@ const AdminUsersDashboard = () => {
                         >
                             <X size={28} />
                         </button>
-                        
+
                         <div className="p-6 md:p-8 flex flex-col items-center">
                             {/* Image en grand */}
                             <div className="w-full max-w-2xl">
@@ -577,18 +576,17 @@ const AdminUsersDashboard = () => {
                                     );
                                 })()}
                             </div>
-                            
+
                             {/* Informations utilisateur */}
                             <div className="mt-8 text-center">
                                 <h3 className="text-2xl font-bold text-base-content">
                                     {selectedUser.prenom} {selectedUser.nom}
                                 </h3>
                                 <div className="flex flex-wrap gap-2 justify-center mt-2">
-                                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                                        selectedUser.role === 'ADMIN' 
-                                            ? 'bg-primary/20 text-primary' 
+                                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${selectedUser.role === 'ADMIN'
+                                            ? 'bg-primary/20 text-primary'
                                             : 'bg-base-300 text-base-content/70'
-                                    }`}>
+                                        }`}>
                                         {selectedUser.role || 'UTILISATEUR'}
                                     </span>
                                     <span className="px-3 py-1 rounded-full text-sm font-medium bg-base-300 text-base-content/70">
@@ -596,7 +594,7 @@ const AdminUsersDashboard = () => {
                                     </span>
                                 </div>
                                 <p className="text-base-content/70 mt-4">{selectedUser.email}</p>
-                                
+
                                 {/* Boutons d'action */}
                                 <div className="mt-8 flex flex-wrap gap-4 justify-center">
                                     <a
@@ -606,7 +604,7 @@ const AdminUsersDashboard = () => {
                                         <Mail size={18} />
                                         Envoyer un email
                                     </a>
-                                    
+
                                     {(() => {
                                         const avatarUrl = getAvatarUrl(selectedUser);
                                         if (avatarUrl) {
