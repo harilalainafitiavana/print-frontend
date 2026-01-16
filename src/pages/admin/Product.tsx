@@ -21,6 +21,7 @@ interface Product {
     categorie: string;
     prix: string;
     image: string;
+    image_url?: string | null; 
     format_defaut: "A3" | "A4" | "A5" | "A6" | "";
     is_grand_format: boolean;
     searchQuery?: string;
@@ -398,7 +399,7 @@ export default function ProductList() {
                             <div key={product.id} className="group bg-base-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-base-300 transition-all duration-300">
                                 <div className="relative">
                                     <img
-                                        src={product.image ? product.image : "/placeholder.png"}
+                                        src={product.image_url ? product.image_url : "/placeholder.png"}
                                         alt={product.name}
                                         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                                         onError={(e) => (e.currentTarget.src = "/placeholder.png")}

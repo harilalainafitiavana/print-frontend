@@ -19,6 +19,7 @@ interface Product {
     categorie: string;
     prix: string;
     image: string;
+    image_url?: string | null; 
     featured: boolean;
     format_defaut: "A3" | "A4" | "A5" | "A6";
     is_grand_format: boolean;
@@ -274,7 +275,7 @@ const PublicationsPage: React.FC = () => {
                                     {/* Image container */}
                                     <div className="relative h-56 overflow-hidden">
                                         <img
-                                            src={product.image ? product.image : "/placeholder.png"}
+                                            src={product.image_url ? product.image_url : "/placeholder.png"}
                                             alt={product.name}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                         />
