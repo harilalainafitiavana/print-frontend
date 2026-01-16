@@ -22,11 +22,34 @@ export default function AdminCommande() {
   useEffect(() => {
     async function loadOrders() {
       try {
-        const res = await authFetch(`${API_BASE_URL}/api/admin/commandes/`);
+        const token = localStorage.getItem('access_token');
+
+        if (!token) {
+          console.error("❌ Pas de token trouvé!");
+          // Rediriger vers la connexion
+          window.location.href = '/login';
+          return;
+        }
+
+        const res = await fetch(`${API_BASE_URL}/api/admin/commandes/`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (res.status === 401) {
+          // Token expiré, déconnecter
+          localStorage.removeItem('access_token');
+          window.location.href = '/login';
+          return;
+        }
+
         const data = await res.json();
         setOrders(data);
       } catch (err: any) {
-        alert(err.message);
+        console.error("Erreur détaillée:", err);
+        alert("Erreur de chargement: " + err.message);
       }
     }
     loadOrders();
