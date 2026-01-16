@@ -277,16 +277,25 @@ export default function AdminCommande() {
                         </button>
 
                         {/* Télécharger */}
-                        {/* <a
-                          href={`${API_BASE_URL}/download/${selectedOrder.fichiers[0]?.id}/`}
-                          download
-                          className="bg-indigo-500 text-white p-3 rounded-lg flex flex-col items-center gap-1 hover:bg-indigo-600"
-                        >
-                          <Download size={24} />
-                          <span>{t("orders.actions.download")}</span>
-                        </a> */}
-
-                        {/* Voir détails */}
+                        {selectedOrder.fichiers && selectedOrder.fichiers.length > 0 ? (
+                          <a
+                            href={`${API_BASE_URL}/download/${selectedOrder.fichiers[0].id}/`}
+                            download
+                            className="bg-indigo-500 text-white p-3 rounded-lg flex flex-col items-center gap-1 hover:bg-indigo-600"
+                          >
+                            <Download size={24} />
+                            <span>{t("orders.actions.download")}</span>
+                          </a>
+                        ) : (
+                          <button
+                            disabled
+                            className="bg-gray-400 text-white p-3 rounded-lg flex flex-col items-center gap-1 cursor-not-allowed opacity-60"
+                            title="Aucun fichier à télécharger"
+                          >
+                            <Download size={24} />
+                            <span>{t("orders.actions.download")}</span>
+                          </button>
+                        )}
                         <button
                           onClick={() => handleView(selectedOrder)}
                           className="bg-green-500 text-white p-3 rounded-lg flex flex-col items-center gap-1 hover:bg-green-600"
@@ -370,12 +379,18 @@ export default function AdminCommande() {
                 </div>
 
                 <div>
-                  {/* <a
-                    href={`${API_BASE_URL}/download/${f.id}/`}
-                    className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-all"
-                  >
-                    <Download size={16} /> {t("orders.actions.download")}
-                  </a> */}
+                  {/* Pour chaque fichier dans la modal de détails */}
+                  {f.fichier ? (
+                    <a
+                      href={`${API_BASE_URL}/download/${f.id}/`}
+                      download
+                      className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-all"
+                    >
+                      <Download size={16} /> {t("orders.actions.download")}
+                    </a>
+                  ) : (
+                    <span className="text-gray-500 text-sm italic">Fichier non disponible</span>
+                  )}
                 </div>
               </div>
             ))}

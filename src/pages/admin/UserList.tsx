@@ -220,7 +220,7 @@ const AdminUsersDashboard = () => {
                                                     if (avatarUrl) {
                                                         return (
                                                             <img
-                                                                src={avatarUrl.replace(/s\d+-c$/, 's100-c')}
+                                                                src={avatarUrl}
                                                                 alt={`${user.prenom} ${user.nom}`}
                                                                 className="w-full h-full object-cover"
                                                                 crossOrigin="anonymous"
@@ -375,7 +375,7 @@ const AdminUsersDashboard = () => {
                                             if (avatarUrl) {
                                                 return (
                                                     <img
-                                                        src={avatarUrl.replace(/s\d+-c$/, 's200-c')}
+                                                        src={avatarUrl}
                                                         alt={`${selectedUser.prenom} ${selectedUser.nom}`}
                                                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                         crossOrigin="anonymous"
