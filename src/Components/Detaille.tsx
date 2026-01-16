@@ -274,7 +274,7 @@ const PublicationsPage: React.FC = () => {
                                     {/* Image container */}
                                     <div className="relative h-56 overflow-hidden">
                                         <img
-                                            src={product.image.startsWith("http") ? product.image : `http://localhost:8000${product.image}`}
+                                            src={product.image.startsWith("http") ? product.image : `${API_BASE_URL}${product.image}`}
                                             alt={product.name}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                         />

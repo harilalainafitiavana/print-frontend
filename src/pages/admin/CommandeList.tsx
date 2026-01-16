@@ -278,7 +278,7 @@ export default function AdminCommande() {
 
                         {/* Télécharger */}
                         <a
-                          href={`http://127.0.0.1:8000/download/${selectedOrder.fichiers[0]?.id}/`}
+                          href={`${API_BASE_URL}/download/${selectedOrder.fichiers[0]?.id}/`}
                           download
                           className="bg-indigo-500 text-white p-3 rounded-lg flex flex-col items-center gap-1 hover:bg-indigo-600"
                         >
@@ -371,7 +371,7 @@ export default function AdminCommande() {
 
                 <div>
                   <a
-                    href={`http://127.0.0.1:8000/download/${f.id}/`}
+                    href={`${API_BASE_URL}/download/${f.id}/`}
                     className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-all"
                   >
                     <Download size={16} /> {t("orders.actions.download")}
