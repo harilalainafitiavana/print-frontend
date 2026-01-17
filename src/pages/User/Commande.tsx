@@ -59,6 +59,10 @@ export default function PrintingOrderForm() {
   // Étape 4 - Confirmation
   const [showModal, setShowModal] = useState(false);
 
+  // Après vos autres useState, ajoutez :
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [showValidationErrors, setShowValidationErrors] = useState(false);
+
   // Récupérer les produits avec tous les champs
   useEffect(() => {
     const fetchProduits = async () => {
@@ -195,47 +199,76 @@ export default function PrintingOrderForm() {
 
 
   // Erreurs et validations du numéro téléphone sur le payement
+  // Validation complète des numéros malgaches
   const validatePhone = (number: string): string => {
+    // Nettoyer le numéro
     let cleanNumber = number.replace(/\D/g, '');
 
-    // Conversion format international
+    // Convertir format international +261 en local 0
     if (cleanNumber.startsWith('261') && cleanNumber.length === 12) {
       cleanNumber = '0' + cleanNumber.substring(3);
     }
 
-    // Longueur exacte
+    // Vérifier la longueur
     if (cleanNumber.length !== 10) {
       return "Le numéro doit avoir exactement 10 chiffres";
     }
 
-    // Opérateurs Mobile Money
-    const validPrefixes = ["034", "038", "032", "037", "033"];
+    // Préfixes valides à Madagascar (Mobile Money)
+    const validPrefixes = ["032", "033", "034", "037", "038"];
     const prefix = cleanNumber.substring(0, 3);
 
+    // Vérifier le préfixe
     if (!validPrefixes.includes(prefix)) {
-      return "Numéro invalide pour Mobile Money. Utilisez Telma (034/038), Orange (032/037) ou Airtel Money (033)";
+      const operatorMap: { [key: string]: string } = {
+        "032": "Orange",
+        "033": "Airtel",
+        "034": "Telma",
+        "037": "Orange",
+        "038": "Telma"
+      };
+
+      const validOperators = validPrefixes.map(p => `${p} (${operatorMap[p]})`).join(", ");
+      return `Préfixe ${prefix} invalide. Opérateurs acceptés: ${validOperators}`;
     }
 
-    return ""; // Valide
+    // Vérifier que les 7 derniers chiffres sont numériques
+    const suffix = cleanNumber.substring(3);
+    if (!/^\d{7}$/.test(suffix)) {
+      return "Le numéro contient des caractères invalides";
+    }
+
+    return ""; // Numéro valide
   };
 
-  // Le numéro doit contenir 10 chiffres, commencer par 034 ou 038
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value;
+  // Formatage d'affichage : 034 12 345 67
+  const formatPhoneDisplay = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length === 0) return "";
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 6) return `${numbers.slice(0, 3)} ${numbers.slice(3)}`;
+    if (numbers.length <= 8) return `${numbers.slice(0, 3)} ${numbers.slice(3, 5)} ${numbers.slice(5)}`;
+    return `${numbers.slice(0, 3)} ${numbers.slice(3, 5)} ${numbers.slice(5, 8)} ${numbers.slice(8, 10)}`;
+  };
 
-    // Formatage automatique
-    let formattedValue = value.replace(/\D/g, ''); // Supprimer non-numériques
+  // Gestion du changement de numéro
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const rawValue = e.target.value;
+
+    // Garder uniquement les chiffres
+    const numbersOnly = rawValue.replace(/\D/g, '');
 
     // Limiter à 10 chiffres
-    if (formattedValue.length > 10) {
-      formattedValue = formattedValue.substring(0, 10);
-    }
+    const limitedNumbers = numbersOnly.substring(0, 10);
 
     // Validation
-    const error = validatePhone(formattedValue);
+    const error = validatePhone(limitedNumbers);
     setPhoneError(error);
-    setPhone(formattedValue);
+
+    // Stocker les chiffres seulement
+    setPhone(limitedNumbers);
   };
+
 
   // Gestion du fichier
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -353,7 +386,7 @@ export default function PrintingOrderForm() {
   };
 
 
-  // Fonction pour envoyer la commande au backend
+  // Fonction pour envoyer la commande au backend - VERSION COMPLÈTE
   const handleSubmit = async () => {
     if (!file) {
       alert(t("printingOrder.errors.selectFile"));
@@ -370,10 +403,10 @@ export default function PrintingOrderForm() {
       formData.append("file_format", file.name.split('.').pop() || "");
       formData.append("colorProfile", colorProfile);
 
-      // 🔹 Configuration - CORRIGÉ
+      // 🔹 Configuration
       formData.append("format_type", formatType);
       if (smallFormat) formData.append("small_format", smallFormat);
-      if (selectedProduit) formData.append("produit_id", selectedProduit); // ✅ IMPORTANT
+      if (selectedProduit) formData.append("produit_id", selectedProduit);
       if (customSize.width) formData.append("largeur", customSize.width);
       if (customSize.height) formData.append("hauteur", customSize.height);
       if (paperType) formData.append("paper_type", paperType);
@@ -385,28 +418,11 @@ export default function PrintingOrderForm() {
       formData.append("is_book", isBook ? "true" : "false");
       if (isBook && bookPages) formData.append("book_pages", bookPages.toString());
 
-      // 🔹 Paiement - RETIREZ amount
+      // 🔹 Paiement
       formData.append("phone", phone);
-      // ⛔ SUPPRIMEZ cette ligne: formData.append("amount", amount.toString());
       if (options) formData.append("options", options);
 
-      console.log("Données envoyées :", {
-        file,
-        fileName,
-        dpi,
-        colorProfile,
-        formatType,
-        smallFormat,
-        customSize,
-        paperType,
-        finish,
-        quantity,
-        duplex,
-        binding,
-        coverPaper,
-        phone,
-        options,
-      });
+      console.log("📤 Envoi de la commande...");
 
       const res = await authFetch(`${API_BASE_URL}/api/commande/`, {
         method: "POST",
@@ -422,8 +438,8 @@ export default function PrintingOrderForm() {
         setStep(1);
         setFile(null);
         setFileName("");
-        setSelectedProduit(""); // ⭐ Reset le produit aussi
-        setSmallFormat("A4"); // ⭐ Reset le format
+        setSelectedProduit("");
+        setSmallFormat("A4");
         setQuantity("");
         setAmount("");
         setPhone("");
@@ -432,15 +448,26 @@ export default function PrintingOrderForm() {
         setCoverPaper("");
         setOptions("");
         setCustomSize({ width: "", height: "" });
-        setIsBook(false); // ⭐ Reset livre
+        setIsBook(false);
         setBookPages("");
         setShowModal(false);
+
       } else {
-        alert(t("printingOrder.errors.creationFailed", { message: data.error }));
+        // ⭐⭐ GESTION DES ERREURS DE VALIDATION
+        if (data.details && data.details.length > 0) {
+          // Afficher les erreurs dans un modal spécial
+          setValidationErrors(data.details);
+          setShowValidationErrors(true);
+
+        } else if (data.error) {
+          alert(`❌ Erreur : ${data.error}`);
+        } else {
+          alert("❌ Échec de création de commande");
+        }
       }
     } catch (error: any) {
-      console.error(error);
-      alert(error.message || t("printingOrder.errors.creationError"));
+      console.error("Erreur :", error);
+      alert("❌ Erreur de connexion au serveur");
     }
   };
 
@@ -681,31 +708,184 @@ export default function PrintingOrderForm() {
         </div>
       )}
 
-      {/* Étape 3 */}
+      {/* Étape 3 - Paiement */}
       {step === 3 && (
-        <div className="space-y-4">
-          {/* Ajoute juste cette ligne d'avertissement */}
+        <div className="space-y-6">
+          {/* Avertissement développement */}
           <div className="alert alert-warning">
             <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
             <span>Mode développement : le paiement est simulé (Sandbox)</span>
           </div>
-          <input type="tel" placeholder={t("printingOrder.placeholders.phone")} value={phone} onChange={handlePhoneChange} className={`input input-bordered w-full ${phoneError ? 'input-error' : ''}`} maxLength={10} />
-          {phoneError && (
-            <label className="label">
-              <span className="label-text-alt text-error">{phoneError}</span>
-            </label>
-          )}
-          <input type="number" placeholder={t("printingOrder.placeholders.amount")} value={amount} readOnly className="input input-bordered w-full" />
-          <textarea placeholder={t("printingOrder.placeholders.options")} value={options} onChange={(e) => setOptions(e.target.value)} className="textarea textarea-bordered w-full" />
-          {step3Error && <p className="text-red-500">{step3Error}</p>}
 
-          <div className="flex justify-between">
+          {/* Champ téléphone amélioré */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text font-semibold">
+                Numéro Mobile Money Madagascar
+              </span>
+              <span className="label-text-alt">
+                {phone.length}/10
+              </span>
+            </label>
+
+            <div className="relative">
+              <input
+                type="tel"
+                placeholder="Ex: 034 12 345 67"
+                value={formatPhoneDisplay(phone)}
+                onChange={handlePhoneChange}
+                className={`input input-bordered w-full text-lg ${phoneError ? 'input-error' : phone.length === 10 ? 'input-success' : ''}`}
+              />
+
+              {phone.length === 10 && !phoneError && (
+                <div className="absolute right-3 top-3 text-green-500">
+                  <Check size={20} />
+                </div>
+              )}
+
+              {phoneError && (
+                <div className="absolute right-3 top-3 text-red-500">
+                  <X size={20} />
+                </div>
+              )}
+            </div>
+
+            {/* Messages d'aide/erreur */}
+            {phoneError ? (
+              <label className="label">
+                <span className="label-text-alt text-error flex items-center gap-2">
+                  <X size={14} /> {phoneError}
+                </span>
+              </label>
+            ) : phone.length === 10 ? (
+              <label className="label">
+                <span className="label-text-alt text-success flex items-center gap-2">
+                  <Check size={14} /> Numéro valide pour Mobile Money
+                </span>
+              </label>
+            ) : (
+              <label className="label">
+                <span className="label-text-alt text-gray-500">
+                  Format: 0321234567, 0349876543, 0381234567
+                </span>
+              </label>
+            )}
+
+            {/* Indicateurs des opérateurs */}
+            <div className="flex flex-wrap gap-2 mt-2">
+              <div className="badge badge-outline badge-sm">032 (Orange)</div>
+              <div className="badge badge-outline badge-sm">033 (Airtel)</div>
+              <div className="badge badge-outline badge-sm">034 (Telma)</div>
+              <div className="badge badge-outline badge-sm">037 (Orange)</div>
+              <div className="badge badge-outline badge-sm">038 (Telma)</div>
+            </div>
+          </div>
+
+          {/* Montant (lecture seule) */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text font-semibold">Montant à payer</span>
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={amount ? `${amount.toLocaleString()} Ar` : ""}
+                readOnly
+                className="input input-bordered w-full bg-gray-50 font-bold text-lg"
+              />
+              <div className="absolute right-3 top-3 text-gray-500">MGA</div>
+            </div>
+          </div>
+
+          {/* Options */}
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text font-semibold">Instructions spéciales (optionnel)</span>
+            </label>
+            <textarea
+              placeholder="Ex: Impression urgente, contact pour livraison..."
+              value={options}
+              onChange={(e) => setOptions(e.target.value)}
+              className="textarea textarea-bordered w-full"
+              rows={3}
+            />
+          </div>
+
+          {/* Boutons navigation */}
+          <div className="flex justify-between pt-4">
             <button onClick={prevStep} className="btn btn-outline flex items-center gap-2">
-              <ArrowLeft size={16} /> {t("printingOrder.buttons.back")}
+              <ArrowLeft size={16} /> Retour
             </button>
-            <button onClick={nextStep} className="btn btn-primary">{t("printingOrder.buttons.checkOrder")}</button>
+            <button
+              onClick={nextStep}
+              disabled={!!phoneError || phone.length !== 10}
+              className={`btn ${!!phoneError || phone.length !== 10 ? 'btn-disabled opacity-50 cursor-not-allowed' : 'btn-primary'}`}
+            >
+              Vérifier la commande
+            </button>
+          </div>
+
+          {step3Error && (
+            <div className="alert alert-error">
+              <span>{step3Error}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Modal d'affichage des erreurs de validation */}
+      {showValidationErrors && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4">
+          <div className="bg-white p-6 rounded-xl max-w-md w-full shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-red-100 p-2 rounded-full">
+                <X className="text-red-600" size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-red-700">Problème avec votre fichier</h3>
+            </div>
+
+            <div className="mb-6">
+              <p className="text-gray-700 mb-3">Votre fichier <strong>{fileName || file?.name}</strong> ne correspond pas à la configuration demandée :</p>
+
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <ul className="space-y-2">
+                  {validationErrors.map((error, index) => (
+                    <li key={index} className="flex items-start gap-2 text-red-700 text-sm">
+                      <X size={16} className="mt-0.5 flex-shrink-0" />
+                      <span>{error.replace("❌ ", "").replace("⚠️ ", "")}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <p className="text-sm text-gray-600 mt-4">
+                <strong>Solution :</strong> Corrigez votre fichier ou ajustez votre configuration.
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowValidationErrors(false);
+                  setValidationErrors([]);
+                  setStep(2); // Retour à l'étape configuration
+                }}
+                className="btn btn-outline flex-1"
+              >
+                Modifier la configuration
+              </button>
+              <button
+                onClick={() => {
+                  setShowValidationErrors(false);
+                  setValidationErrors([]);
+                }}
+                className="btn btn-primary flex-1"
+              >
+                J'ai compris
+              </button>
+            </div>
           </div>
         </div>
       )}
