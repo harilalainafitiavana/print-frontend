@@ -178,7 +178,7 @@ export default function AdminCorbeille() {
           <h1 className="text-3xl font-bold text-base-content">{t("trash.title") || "Corbeille Admin"}</h1>
         </div>
         <p className="text-base-content/70">
-          Gestion des éléments supprimés par les utilisateurs et administrateurs
+          {t("admin.manage_deleted_items")}
         </p>
       </div>
 
@@ -186,13 +186,13 @@ export default function AdminCorbeille() {
       <div className="flex mb-6 border-b border-base-300">
         <button
           className={`flex items-center gap-2 px-4 py-3 font-medium transition-all ${activeTab === "orders"
-              ? "text-primary border-b-2 border-primary"
-              : "text-base-content/70 hover:text-base-content"
+            ? "text-primary border-b-2 border-primary"
+            : "text-base-content/70 hover:text-base-content"
             }`}
           onClick={() => setActiveTab("orders")}
         >
           <Package className="w-5 h-5" />
-          Commandes
+          {t("admin.orders")}
           {deletedOrders.length > 0 && (
             <span className="ml-2 px-2 py-1 text-xs rounded-full bg-primary/20 text-primary">
               {deletedOrders.length}
@@ -201,13 +201,13 @@ export default function AdminCorbeille() {
         </button>
         <button
           className={`flex items-center gap-2 px-4 py-3 font-medium transition-all ${activeTab === "notifications"
-              ? "text-primary border-b-2 border-primary"
-              : "text-base-content/70 hover:text-base-content"
+            ? "text-primary border-b-2 border-primary"
+            : "text-base-content/70 hover:text-base-content"
             }`}
           onClick={() => setActiveTab("notifications")}
         >
           <Bell className="w-5 h-5" />
-          Notifications
+          {t("user.fr.notifications")}
           {deletedNotifications.length > 0 && (
             <span className="ml-2 px-2 py-1 text-xs rounded-full bg-primary/20 text-primary">
               {deletedNotifications.length}
@@ -235,7 +235,7 @@ export default function AdminCorbeille() {
               <div className="bg-base-100 rounded-2xl p-8 text-center shadow-sm">
                 <Package className="w-16 h-16 mx-auto mb-4 text-base-content/30" />
                 <h3 className="text-lg font-medium mb-2">{t("trash.noOrders") || "Aucune commande supprimée"}</h3>
-                <p className="text-base-content/60">Les commandes supprimées par les utilisateurs apparaîtront ici</p>
+                <p className="text-base-content/60">{t("admin.user_deleted_orders")}</p>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -254,7 +254,7 @@ export default function AdminCorbeille() {
                         </div>
                       </div>
                       <div className="px-3 py-1 rounded-full bg-error/10 text-error text-xs font-medium">
-                        Supprimée
+                        {t("admin.deleted")}
                       </div>
                     </div>
 
@@ -324,14 +324,14 @@ export default function AdminCorbeille() {
                         className="flex-1 btn btn-outline btn-primary btn-sm gap-2"
                       >
                         <RotateCcw size={16} />
-                        Restaurer
+                        {t("admin.restore")}
                       </button>
                       <button
                         onClick={() => { setSelectedOrder(order); setShowDeletePermanentModal(true); }}
                         className="flex-1 btn btn-outline btn-error btn-sm gap-2"
                       >
                         <Trash size={16} />
-                        Supprimer
+                        {t("admin.delete")}
                       </button>
                     </div>
                   </div>
@@ -358,7 +358,7 @@ export default function AdminCorbeille() {
               <div className="bg-base-100 rounded-2xl p-8 text-center shadow-sm">
                 <Bell className="w-16 h-16 mx-auto mb-4 text-base-content/30" />
                 <h3 className="text-lg font-medium mb-2">{t("trash.noNotifications") || "Aucune notification supprimée"}</h3>
-                <p className="text-base-content/60">Les notifications supprimées apparaîtront ici</p>
+                <p className="text-base-content/60">{t("admin.deleted_notifications")}</p>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -369,7 +369,7 @@ export default function AdminCorbeille() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <Bell className="w-4 h-4 text-primary" />
-                          <h3 className="font-bold">Notification #{notif.id}</h3>
+                          <h3 className="font-bold">{t("user.fr.notifications")} #{notif.id}</h3>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-base-content/60">
                           <Calendar className="w-3 h-3" />
@@ -377,7 +377,7 @@ export default function AdminCorbeille() {
                         </div>
                       </div>
                       <div className="px-3 py-1 rounded-full bg-error/10 text-error text-xs font-medium">
-                        Supprimée
+                        {t("admin.delete")}
                       </div>
                     </div>
 
@@ -391,7 +391,7 @@ export default function AdminCorbeille() {
                       <div className="mb-4 p-3 bg-base-200 rounded-lg">
                         <div className="flex items-center gap-2 mb-1">
                           <User className="w-3 h-3 text-base-content/60" />
-                          <span className="text-sm font-medium">Expéditeur</span>
+                          <span className="text-sm font-medium">{t("admin.sender")}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <Mail className="w-3 h-3 text-base-content/60" />
@@ -410,14 +410,14 @@ export default function AdminCorbeille() {
                         className="flex-1 btn btn-outline btn-primary btn-sm gap-2"
                       >
                         <RotateCcw size={16} />
-                        Restaurer
+                        {t("admin.restore")}
                       </button>
                       <button
                         onClick={() => { setSelectedNotif(notif); setShowDeleteNotifModal(true); }}
                         className="flex-1 btn btn-outline btn-error btn-sm gap-2"
                       >
                         <Trash size={16} />
-                        Supprimer
+                        {t("admin.delete")}
                       </button>
                     </div>
                   </div>
@@ -430,7 +430,7 @@ export default function AdminCorbeille() {
 
       {/* ------------------- MODALS ------------------- */}
       {showRestoreModal && selectedOrder && (
-        <Modal 
+        <Modal
           title={t("trash.restore_commande") || "Restaurer la commande"}
           message={t("trash.confirmRestore") || "Êtes-vous sûr de vouloir restaurer cette commande ?"}
           onCancel={() => setShowRestoreModal(false)}
@@ -441,7 +441,7 @@ export default function AdminCorbeille() {
       )}
 
       {showDeletePermanentModal && selectedOrder && (
-        <Modal 
+        <Modal
           title={t("trash.deletePermanent") || "Suppression définitive"}
           message={t("trash.confirmDelete") || "Êtes-vous sûr de vouloir supprimer définitivement cette commande ? Cette action est irréversible."}
           onCancel={() => setShowDeletePermanentModal(false)}
@@ -452,7 +452,7 @@ export default function AdminCorbeille() {
       )}
 
       {showRestoreNotifModal && selectedNotif && (
-        <Modal 
+        <Modal
           title={t("trash.restore_notification") || "Restaurer la notification"}
           message={t("trash.confirmRestore") || "Êtes-vous sûr de vouloir restaurer cette notification ?"}
           onCancel={() => setShowRestoreNotifModal(false)}
@@ -463,7 +463,7 @@ export default function AdminCorbeille() {
       )}
 
       {showDeleteNotifModal && selectedNotif && (
-        <Modal 
+        <Modal
           title={t("trash.deletePermanent") || "Suppression définitive"}
           message={t("trash.confirmDelete") || "Êtes-vous sûr de vouloir supprimer définitivement cette notification ? Cette action est irréversible."}
           onCancel={() => setShowDeleteNotifModal(false)}
@@ -497,11 +497,11 @@ export default function AdminCorbeille() {
 }
 
 // ------------------- Modal amélioré -------------------
-function Modal({ 
-  title, 
-  message, 
-  onCancel, 
-  onConfirm, 
+function Modal({
+  title,
+  message,
+  onCancel,
+  onConfirm,
   icon,
   type = "restore"
 }: {

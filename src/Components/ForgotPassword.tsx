@@ -51,7 +51,7 @@ export default function ForgotPassword() {
                         {/* Champ email - CORRIGÉ */}
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text font-medium">Adresse email</span>
+                                <span className="label-text font-medium mb-2 text-primary">Adresse email</span>
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none z-10">

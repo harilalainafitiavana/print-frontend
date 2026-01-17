@@ -21,7 +21,7 @@ interface Product {
     categorie: string;
     prix: string;
     image: string;
-    image_url?: string | null; 
+    image_url?: string | null;
     format_defaut: "A3" | "A4" | "A5" | "A6" | "";
     is_grand_format: boolean;
     searchQuery?: string;
@@ -238,7 +238,7 @@ export default function ProductList() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div>
                         <h1 className="text-3xl font-bold text-base-content mb-2">📦 {t("products.title")}</h1>
-                        <p className="text-base-content/70">Gérez vos produits et offres d'impression</p>
+                        <p className="text-base-content/70">{t("product.fr.manage_products")}</p>
                     </div>
                     <button
                         onClick={() => setShowAddModal(true)}
@@ -254,7 +254,7 @@ export default function ProductList() {
                     <div className="bg-base-100 p-5 rounded-2xl shadow-sm border border-base-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-base-content/70">Total Produits</p>
+                                <p className="text-sm text-base-content/70">{t("product.fr.total_products")}</p>
                                 <p className="text-2xl font-bold text-base-content">{products.length}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-xl">
@@ -265,7 +265,7 @@ export default function ProductList() {
                     <div className="bg-base-100 p-5 rounded-2xl shadow-sm border border-base-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-base-content/70">Produits en vedette</p>
+                                <p className="text-sm text-base-content/70">{t("product.fr.featured_products")}</p>
                                 <p className="text-2xl font-bold text-base-content">
                                     {products.filter(p => isFeatured(p.future)).length}
                                 </p>
@@ -278,7 +278,7 @@ export default function ProductList() {
                     <div className="bg-base-100 p-5 rounded-2xl shadow-sm border border-base-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-base-content/70">Grands formats</p>
+                                <p className="text-sm text-base-content/70">{t("product.fr.large_format")}</p>
                                 <p className="text-2xl font-bold text-base-content">
                                     {products.filter(p => p.is_grand_format).length}
                                 </p>
@@ -291,7 +291,7 @@ export default function ProductList() {
                     <div className="bg-base-100 p-5 rounded-2xl shadow-sm border border-base-300">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-base-content/70">Moyenne prix</p>
+                                <p className="text-sm text-base-content/70">{t("product.fr.average_price")}</p>
                                 <p className="text-2xl font-bold text-base-content">
                                     {products.length > 0
                                         ? Math.round(products.reduce((acc, p) => acc + parseFloat(p.prix), 0) / products.length)
@@ -313,7 +313,7 @@ export default function ProductList() {
                                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-base-content/50" size={20} />
                                 <input
                                     type="text"
-                                    placeholder="Rechercher un produit..."
+                                    placeholder={t("product.fr.search_product")}
                                     value={searchTerm}
                                     onChange={handleSearchChange}
                                     className="w-full pl-12 pr-4 py-3 bg-base-200 border border-base-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base-content"
@@ -380,7 +380,7 @@ export default function ProductList() {
                             }}
                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200"
                         >
-                            Réinitialiser les filtres
+                            {t("product.fr.reset_filters")}
                         </button>
                     ) : (
                         <button
@@ -388,7 +388,7 @@ export default function ProductList() {
                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200"
                         >
                             <PlusCircle size={20} />
-                            Ajouter un produit
+                            {t("product.fr.add_product")}
                         </button>
                     )}
                 </div>
@@ -409,7 +409,7 @@ export default function ProductList() {
                                         <div className="absolute top-3 left-3">
                                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-500 text-white text-xs font-semibold rounded-full">
                                                 <Star size={12} />
-                                                Vedette
+                                                {t("product.fr.featured")}
                                             </span>
                                         </div>
                                     )}
@@ -417,7 +417,7 @@ export default function ProductList() {
                                         <div className="absolute top-3 right-3">
                                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-500 text-white text-xs font-semibold rounded-full">
                                                 <TrendingUp size={12} />
-                                                Grand format
+                                                {t("product.fr.large_format_tag")}
                                             </span>
                                         </div>
                                     )}
@@ -456,7 +456,7 @@ export default function ProductList() {
                                             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 transition-all duration-200"
                                         >
                                             <Edit size={16} />
-                                            <span className="font-medium">Modifier</span>
+                                            <span className="font-medium">{t("product.fr.edit")}</span>
                                         </button>
                                         <button
                                             onClick={() => handleDeleteClick(product)}
@@ -485,7 +485,7 @@ export default function ProductList() {
                                     disabled={currentPage === 1}
                                     className="px-4 py-2 rounded-xl border border-base-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-base-200 transition-colors"
                                 >
-                                    Précédent
+                                    {t("product.fr.previous")}
                                 </button>
 
                                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
@@ -519,7 +519,7 @@ export default function ProductList() {
                                     disabled={currentPage === totalPages}
                                     className="px-4 py-2 rounded-xl border border-base-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-base-200 transition-colors"
                                 >
-                                    Suivant
+                                    {t("product.fr.next")}
                                 </button>
                             </div>
 
@@ -536,12 +536,12 @@ export default function ProductList() {
                     <table className="w-full">
                         <thead className="bg-base-200 border-b border-base-300">
                             <tr>
-                                <th className="text-left p-4 text-base-content font-semibold">Produit</th>
-                                <th className="text-left p-4 text-base-content font-semibold">Catégorie</th>
-                                <th className="text-left p-4 text-base-content font-semibold">Format</th>
-                                <th className="text-left p-4 text-base-content font-semibold">Prix</th>
-                                <th className="text-left p-4 text-base-content font-semibold">Statut</th>
-                                <th className="text-left p-4 text-base-content font-semibold">Actions</th>
+                                <th className="text-left p-4 text-base-content font-semibold">{t("product.fr.product")}</th>
+                                <th className="text-left p-4 text-base-content font-semibold">{t("product.fr.category")}</th>
+                                <th className="text-left p-4 text-base-content font-semibold">{t("product.fr.format")}</th>
+                                <th className="text-left p-4 text-base-content font-semibold">{t("product.fr.price")}</th>
+                                <th className="text-left p-4 text-base-content font-semibold">{t("product.fr.status")}</th>
+                                <th className="text-left p-4 text-base-content font-semibold">{t("product.fr.actions")}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -579,12 +579,12 @@ export default function ProductList() {
                                             {isFeatured(product.future) && (
                                                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full w-fit">
                                                     <Star size={10} />
-                                                    Vedette
+                                                    {t("product.fr.featured")}
                                                 </span>
                                             )}
                                             {product.is_grand_format && (
                                                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full w-fit">
-                                                    Grand format
+                                                    {t("product.fr.large_format_tag")}
                                                 </span>
                                             )}
                                         </div>
@@ -623,8 +623,8 @@ export default function ProductList() {
                     <div className="bg-base-100 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="sticky top-0 bg-base-100 border-b border-base-300 p-6 flex items-center justify-between">
                             <div>
-                                <h3 className="text-2xl font-bold text-base-content">➕ Ajouter un nouveau produit</h3>
-                                <p className="text-base-content/70 text-sm mt-1">Remplissez les informations du produit</p>
+                                <h3 className="text-2xl font-bold text-base-content">➕ {t("product.fr.add_new_product")}</h3>
+                                <p className="text-base-content/70 text-sm mt-1">{t("product.fr.fill_product_info")}</p>
                             </div>
                             <button
                                 onClick={() => setShowAddModal(false)}
@@ -649,7 +649,7 @@ export default function ProductList() {
                                             onClick={() => setNewProduct(prev => ({ ...prev, image: undefined, imageFile: undefined }))}
                                             className="text-sm text-red-600 hover:text-red-700"
                                         >
-                                            Changer l'image
+                                            {t("product.fr.change_image")}
                                         </button>
                                     </div>
                                 ) : (
@@ -657,8 +657,8 @@ export default function ProductList() {
                                         <div className="p-4 bg-white rounded-full inline-block mb-4">
                                             <ImageIcon size={32} className="text-blue-500" />
                                         </div>
-                                        <div className="text-base-content font-medium mb-2">Cliquez pour télécharger une image</div>
-                                        <div className="text-base-content/60 text-sm">PNG, JPG, WEBP jusqu'à 5MB</div>
+                                        <div className="text-base-content font-medium mb-2">{t("product.fr.click_to_upload")}</div>
+                                        <div className="text-base-content/60 text-sm">{t("product.fr.image_formats")}</div>
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -671,7 +671,7 @@ export default function ProductList() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Nom du produit *</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.product_name")} *</label>
                                     <input
                                         type="text"
                                         name="name"
@@ -684,7 +684,7 @@ export default function ProductList() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Prix *</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.price_field")} *</label>
                                     <input
                                         type="text"
                                         name="prix"
@@ -697,7 +697,7 @@ export default function ProductList() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Catégorie</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.category_field")}</label>
                                     <input
                                         type="text"
                                         name="categorie"
@@ -709,7 +709,7 @@ export default function ProductList() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Format par défaut</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.default_format")}</label>
                                     <select
                                         value={newProduct.format_defaut || ""}
                                         onChange={(e) =>
@@ -721,7 +721,7 @@ export default function ProductList() {
                                         className="w-full px-4 py-3 bg-base-200 border border-base-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base-content"
                                         disabled={newProduct.is_grand_format}
                                     >
-                                        <option value="">Sélectionnez un format</option>
+                                        <option value="">{t("product.fr.select_format")}</option>
                                         <option value="A3">A3</option>
                                         <option value="A4">A4</option>
                                         <option value="A5">A5</option>
@@ -731,7 +731,7 @@ export default function ProductList() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-base-content mb-2">Description</label>
+                                <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.description")}</label>
                                 <textarea
                                     name="description"
                                     placeholder="Décrivez votre produit..."
@@ -760,8 +760,8 @@ export default function ProductList() {
                                         className="w-5 h-5 rounded"
                                     />
                                     <div>
-                                        <div className="font-medium text-base-content">Grand format</div>
-                                        <div className="text-sm text-base-content/70">Les dimensions seront personnalisées par le client</div>
+                                        <div className="font-medium text-base-content">{t("product.fr.large_format_tag")}</div>
+                                        <div className="text-sm text-base-content/70">{t("product.fr.custom_dimensions")}</div>
                                     </div>
                                 </label>
 
@@ -776,8 +776,8 @@ export default function ProductList() {
                                         className="w-5 h-5 rounded"
                                     />
                                     <div>
-                                        <div className="font-medium text-base-content">Produit vedette</div>
-                                        <div className="text-sm text-base-content/70">Mettez en avant ce produit sur la page d'accueil</div>
+                                        <div className="font-medium text-base-content">{t("product.fr.feature_product")}</div>
+                                        <div className="text-sm text-base-content/70">{t("product.fr.highlight_homepage")}</div>
                                     </div>
                                 </label>
                             </div>
@@ -788,7 +788,7 @@ export default function ProductList() {
                                     onClick={() => setShowAddModal(false)}
                                     className="flex-1 px-6 py-3 border-2 border-base-300 text-base-content rounded-xl hover:bg-base-200 transition-colors font-medium"
                                 >
-                                    Annuler
+                                    {t("product.fr.cancel")}
                                 </button>
                                 <button
                                     type="submit"
@@ -796,7 +796,7 @@ export default function ProductList() {
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <PlusCircle size={20} />
-                                        Ajouter le produit
+                                        {t("product.fr.add_product_btn")}
                                     </div>
                                 </button>
                             </div>
@@ -813,22 +813,22 @@ export default function ProductList() {
                             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <Trash className="text-red-600" size={32} />
                             </div>
-                            <h3 className="text-2xl font-bold text-base-content mb-2">Confirmer la suppression</h3>
+                            <h3 className="text-2xl font-bold text-base-content mb-2">{t("product.fr.confirm_delete")}</h3>
                             <p className="text-base-content/70 mb-6">
-                                Êtes-vous sûr de vouloir supprimer le produit <strong className="text-base-content">{productToDelete.name}</strong> ? Cette action est irréversible.
+                                {t("product.fr.delete_confirmation")} <strong className="text-base-content">{productToDelete.name}</strong> ? {t("product.fr.irreversible")}
                             </p>
                             <div className="flex gap-4">
                                 <button
                                     onClick={() => setShowDeleteModal(false)}
                                     className="flex-1 px-6 py-3 border-2 border-base-300 text-base-content rounded-xl hover:bg-base-200 transition-colors font-medium"
                                 >
-                                    Annuler
+                                    {t("product.fr.cancel")}
                                 </button>
                                 <button
                                     onClick={confirmDelete}
                                     className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-200 font-medium"
                                 >
-                                    Supprimer définitivement
+                                    {t("product.fr.permanent_delete")}
                                 </button>
                             </div>
                         </div>
@@ -842,8 +842,8 @@ export default function ProductList() {
                     <div className="bg-base-100 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="sticky top-0 bg-base-100 border-b border-base-300 p-6 flex items-center justify-between">
                             <div>
-                                <h3 className="text-2xl font-bold text-base-content">✏️ Modifier le produit</h3>
-                                <p className="text-base-content/70 text-sm mt-1">Modifiez les informations du produit</p>
+                                <h3 className="text-2xl font-bold text-base-content">✏️ {t("product.fr.edit_product")}</h3>
+                                <p className="text-base-content/70 text-sm mt-1">{t("product.fr.edit_product_info")}</p>
                             </div>
                             <button
                                 onClick={() => setShowEditModal(false)}
@@ -864,7 +864,7 @@ export default function ProductList() {
                                         />
                                         <label className="inline-flex items-center gap-2 px-4 py-2 bg-base-300 text-base-content rounded-xl cursor-pointer hover:bg-base-400 transition-colors">
                                             <Upload size={16} />
-                                            Changer l'image
+                                            {t("product.fr.change_image")}
                                             <input
                                                 type="file"
                                                 accept="image/*"
@@ -885,7 +885,7 @@ export default function ProductList() {
                                         <div className="p-4 bg-white rounded-full inline-block mb-4">
                                             <ImageIcon size={32} className="text-blue-500" />
                                         </div>
-                                        <div className="text-base-content font-medium mb-2">Cliquez pour télécharger une image</div>
+                                        <div className="text-base-content font-medium mb-2">{t("product.fr.click_to_upload")}</div>
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -905,7 +905,7 @@ export default function ProductList() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Nom du produit</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.product_name")}</label>
                                     <input
                                         type="text"
                                         value={selectedProduct.name}
@@ -917,7 +917,7 @@ export default function ProductList() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Prix</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.price_field")}</label>
                                     <input
                                         type="text"
                                         value={selectedProduct.prix}
@@ -929,7 +929,7 @@ export default function ProductList() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Catégorie</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.category_field")}</label>
                                     <input
                                         type="text"
                                         value={selectedProduct.categorie}
@@ -941,7 +941,7 @@ export default function ProductList() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-base-content mb-2">Format</label>
+                                    <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.format")}</label>
                                     <select
                                         value={selectedProduct.format_defaut || "A4"}
                                         onChange={(e) =>
@@ -962,7 +962,7 @@ export default function ProductList() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-base-content mb-2">Description</label>
+                                <label className="block text-sm font-medium text-base-content mb-2">{t("product.fr.description")}</label>
                                 <textarea
                                     value={selectedProduct.description}
                                     onChange={(e) =>
@@ -987,8 +987,8 @@ export default function ProductList() {
                                         className="w-5 h-5 rounded"
                                     />
                                     <div>
-                                        <div className="font-medium text-base-content">Grand format</div>
-                                        <div className="text-sm text-base-content/70">Les dimensions seront personnalisées par le client</div>
+                                        <div className="font-medium text-base-content">{t("product.fr.large_format_tag")}</div>
+                                        <div className="text-sm text-base-content/70">{t("product.fr.custom_dimensions")}</div>
                                     </div>
                                 </label>
 
@@ -1005,8 +1005,8 @@ export default function ProductList() {
                                         className="w-5 h-5 rounded"
                                     />
                                     <div>
-                                        <div className="font-medium text-base-content">Produit vedette</div>
-                                        <div className="text-sm text-base-content/70">Mettez en avant ce produit</div>
+                                        <div className="font-medium text-base-content">{t("product.fr.featured_products")}</div>
+                                        <div className="text-sm text-base-content/70">{t("product.fr.highlight_homepage")}</div>
                                     </div>
                                 </label>
                             </div>
@@ -1016,7 +1016,7 @@ export default function ProductList() {
                                     onClick={() => setShowEditModal(false)}
                                     className="flex-1 px-6 py-3 border-2 border-base-300 text-base-content rounded-xl hover:bg-base-200 transition-colors font-medium"
                                 >
-                                    Annuler
+                                    {t("product.fr.cancel")}
                                 </button>
                                 <button
                                     onClick={handleUpdate}
@@ -1024,7 +1024,7 @@ export default function ProductList() {
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Check size={20} />
-                                        Enregistrer les modifications
+                                        {t("product.fr.save_changes")}
                                     </div>
                                 </button>
                             </div>

@@ -208,7 +208,7 @@ export default function MesCommande({ onMenuClick, searchQuery }: MesCommandePro
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-indigo-600">Commande #{typeof selectedOrder.id === 'string' ? selectedOrder.id.slice(0, 6) : selectedOrder.id}</h2>
+                    <h2 className="text-lg font-bold text-indigo-600">{t("user.fr.order")} #{typeof selectedOrder.id === 'string' ? selectedOrder.id.slice(0, 6) : selectedOrder.id}</h2>
                     <p className="text-xs text-pink-600">
                       {new Date(selectedOrder.date_commande).toLocaleDateString('fr-FR')}
                     </p>
@@ -350,7 +350,7 @@ export default function MesCommande({ onMenuClick, searchQuery }: MesCommandePro
                 onClick={handleCancel}
                 className="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-violet-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity text-sm"
               >
-                Fermer le détail
+                {t("user.fr.close_details")}
               </button>
             </div>
           </div>

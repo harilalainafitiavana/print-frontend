@@ -174,7 +174,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="text-4xl font-bold text-center text-gray-900"
           >
-            Nos Services
+            {t("detaille.NosServices")}
           </motion.h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">

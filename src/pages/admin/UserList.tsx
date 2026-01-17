@@ -142,13 +142,13 @@ const AdminUsersDashboard = () => {
                     <div className="flex flex-wrap gap-4">
                         <div className="px-4 py-3 bg-primary/10 rounded-xl">
                             <p className="text-2xl font-bold text-primary">{filteredUsers.length}</p>
-                            <p className="text-sm text-base-content/70">Utilisateurs</p>
+                            <p className="text-sm text-base-content/70">{t("admin.users")}</p>
                         </div>
                         <div className="px-4 py-3 bg-success/10 rounded-xl">
                             <p className="text-2xl font-bold text-success">
                                 {users.filter(u => u.role === 'ADMIN').length}
                             </p>
-                            <p className="text-sm text-base-content/70">Administrateurs</p>
+                            <p className="text-sm text-base-content/70">{t("admin.admins")}</p>
                         </div>
                     </div>
 
@@ -289,7 +289,7 @@ const AdminUsersDashboard = () => {
                 {currentUsers.length === 0 && (
                     <div className="text-center py-12">
                         <Users className="w-16 h-16 mx-auto mb-4 text-base-content/30" />
-                        <h3 className="text-lg font-medium text-base-content mb-2">Aucun utilisateur trouvé</h3>
+                        <h3 className="text-lg font-medium text-base-content mb-2">{t("admin.no_users_found")}</h3>
                         <p className="text-base-content/60">
                             {searchTerm ? "Essayez une autre recherche" : "Aucun utilisateur n'est inscrit"}
                         </p>
@@ -332,8 +332,8 @@ const AdminUsersDashboard = () => {
                                         key={pageNum}
                                         onClick={() => setCurrentPage(pageNum)}
                                         className={`w-8 h-8 rounded-lg flex items-center justify-center ${currentPage === pageNum
-                                                ? 'bg-primary text-white'
-                                                : 'hover:bg-base-300 text-base-content'
+                                            ? 'bg-primary text-white'
+                                            : 'hover:bg-base-300 text-base-content'
                                             }`}
                                     >
                                         {pageNum}
@@ -402,8 +402,8 @@ const AdminUsersDashboard = () => {
                                         </h2>
                                         <div className="flex items-center gap-2 mt-1">
                                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${selectedUser.role === 'ADMIN'
-                                                    ? 'bg-primary/20 text-primary'
-                                                    : 'bg-base-300 text-base-content/70'
+                                                ? 'bg-primary/20 text-primary'
+                                                : 'bg-base-300 text-base-content/70'
                                                 }`}>
                                                 {selectedUser.role || 'UTILISATEUR'}
                                             </span>
@@ -426,7 +426,7 @@ const AdminUsersDashboard = () => {
                                 {/* Informations personnelles */}
                                 <div className="space-y-4">
                                     <h3 className="font-semibold text-lg text-base-content border-b pb-2">
-                                        Informations personnelles
+                                        {t("admin.personal_info")}
                                     </h3>
                                     <div className="space-y-3">
                                         <div className="flex items-center gap-3">
@@ -494,7 +494,7 @@ const AdminUsersDashboard = () => {
                                         <Calendar className="w-5 h-5 text-base-content/60" />
                                     </div>
                                     <div>
-                                        <p className="text-sm text-base-content/60">Date d'inscription</p>
+                                        <p className="text-sm text-base-content/60">{t("admin.registration_date")}</p>
                                         <p className="font-medium">
                                             {new Date(selectedUser.date_inscription).toLocaleString("fr-FR", {
                                                 day: "2-digit",
@@ -515,14 +515,14 @@ const AdminUsersDashboard = () => {
                                     onClick={closeModal}
                                     className="btn btn-ghost flex-1"
                                 >
-                                    Fermer
+                                    {t("admin.close")}
                                 </button>
                                 <a
                                     href={`mailto:${selectedUser.email}`}
                                     className="btn btn-primary flex-1 gap-2"
                                 >
                                     <Mail size={16} />
-                                    Envoyer un email
+                                    {t("admin.send_email")}
                                 </a>
                             </div>
                         </div>
@@ -571,7 +571,7 @@ const AdminUsersDashboard = () => {
                                     return (
                                         <div className="w-full h-96 bg-gradient-to-br from-blue-100 to-indigo-100 flex flex-col items-center justify-center text-gray-400 rounded-lg">
                                             <User size={120} />
-                                            <p className="mt-4 text-lg">Aucune photo de profil</p>
+                                            <p className="mt-4 text-lg">{t("admin.no_profile_pic")}</p>
                                         </div>
                                     );
                                 })()}
@@ -584,8 +584,8 @@ const AdminUsersDashboard = () => {
                                 </h3>
                                 <div className="flex flex-wrap gap-2 justify-center mt-2">
                                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${selectedUser.role === 'ADMIN'
-                                            ? 'bg-primary/20 text-primary'
-                                            : 'bg-base-300 text-base-content/70'
+                                        ? 'bg-primary/20 text-primary'
+                                        : 'bg-base-300 text-base-content/70'
                                         }`}>
                                         {selectedUser.role || 'UTILISATEUR'}
                                     </span>
@@ -602,7 +602,7 @@ const AdminUsersDashboard = () => {
                                         className="btn btn-primary gap-2"
                                     >
                                         <Mail size={18} />
-                                        Envoyer un email
+                                        {t("admin.send_email")}
                                     </a>
 
                                     {(() => {
@@ -623,7 +623,7 @@ const AdminUsersDashboard = () => {
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                         <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
                                                     </svg>
-                                                    Télécharger
+                                                    {t("admin.download")}
                                                 </button>
                                             );
                                         }

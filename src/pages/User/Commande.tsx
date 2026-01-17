@@ -722,7 +722,7 @@ export default function PrintingOrderForm() {
           {/* Champ téléphone amélioré */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-semibold">
+              <span className="label-text font-semibold mb-2 text-violet-500">
                 Numéro Mobile Money Madagascar
               </span>
               <span className="label-text-alt">
@@ -786,7 +786,7 @@ export default function PrintingOrderForm() {
           {/* Montant (lecture seule) */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-semibold">Montant à payer</span>
+              <span className="label-text font-semibold mb-2 text-violet-500">Montant à payer</span>
             </label>
             <div className="relative">
               <input
@@ -802,7 +802,7 @@ export default function PrintingOrderForm() {
           {/* Options */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-semibold">Instructions spéciales (optionnel)</span>
+              <span className="label-text font-semibold mb-2 text-violet-500">Instructions spéciales (optionnel)</span>
             </label>
             <textarea
               placeholder="Ex: Impression urgente, contact pour livraison..."

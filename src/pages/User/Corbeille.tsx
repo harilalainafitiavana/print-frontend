@@ -182,13 +182,13 @@ export default function Trash() {
       <div className="flex mb-6 border-b border-base-300">
         <button
           className={`flex items-center gap-2 px-4 py-3 font-medium transition-all ${activeTab === "orders"
-              ? "text-primary border-b-2 border-primary"
-              : "text-base-content/70 hover:text-base-content"
+            ? "text-primary border-b-2 border-primary"
+            : "text-base-content/70 hover:text-base-content"
             }`}
           onClick={() => setActiveTab("orders")}
         >
           <Package className="w-5 h-5" />
-          Commandes
+          {t("user.fr.order")}
           {deletedOrders.length > 0 && (
             <span className="ml-2 px-2 py-1 text-xs rounded-full bg-primary/20 text-primary">
               {deletedOrders.length}
@@ -197,13 +197,13 @@ export default function Trash() {
         </button>
         <button
           className={`flex items-center gap-2 px-4 py-3 font-medium transition-all ${activeTab === "notifications"
-              ? "text-primary border-b-2 border-primary"
-              : "text-base-content/70 hover:text-base-content"
+            ? "text-primary border-b-2 border-primary"
+            : "text-base-content/70 hover:text-base-content"
             }`}
           onClick={() => setActiveTab("notifications")}
         >
           <Bell className="w-5 h-5" />
-          Notifications
+          {t("user.fr.notifications")}
           {deletedNotifications.length > 0 && (
             <span className="ml-2 px-2 py-1 text-xs rounded-full bg-primary/20 text-primary">
               {deletedNotifications.length}
@@ -231,7 +231,7 @@ export default function Trash() {
               <div className="bg-base-100 rounded-2xl p-8 text-center shadow-sm">
                 <Package className="w-16 h-16 mx-auto mb-4 text-base-content/30" />
                 <h3 className="text-lg font-medium mb-2">{t("corbeille.noDeletedOrders")}</h3>
-                <p className="text-base-content/60">Aucune commande n'a été supprimée</p>
+                <p className="text-base-content/60">{t("user.fr.no_deleted_orders")}</p>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -242,15 +242,15 @@ export default function Trash() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <Hash className="w-4 h-4 text-base-content/60" />
-                          <h3 className="font-bold text-lg">Commande #{order.id}</h3>
+                          <h3 className="font-bold text-lg">{t("user.fr.order")} #{order.id}</h3>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-base-content/60">
                           <Calendar className="w-3 h-3" />
-                          Supprimée récemment
+                          {t("user.fr.recently_deleted")}
                         </div>
                       </div>
                       <div className="px-3 py-1 rounded-full bg-error/10 text-error text-xs font-medium">
-                        Supprimée
+                        {t("user.fr.deleted")}
                       </div>
                     </div>
 
@@ -338,7 +338,7 @@ export default function Trash() {
               <div className="bg-base-100 rounded-2xl p-8 text-center shadow-sm">
                 <Bell className="w-16 h-16 mx-auto mb-4 text-base-content/30" />
                 <h3 className="text-lg font-medium mb-2">{t("corbeille.noDeletedNotifications")}</h3>
-                <p className="text-base-content/60">Aucune notification n'a été supprimée</p>
+                <p className="text-base-content/60">{t("user.fr.no_deleted_notifications")}</p>
               </div>
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -349,7 +349,7 @@ export default function Trash() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <Bell className="w-4 h-4 text-primary" />
-                          <h3 className="font-bold">Notification</h3>
+                          <h3 className="font-bold">{t("user.fr.notifications")}</h3>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-base-content/60">
                           <Calendar className="w-3 h-3" />
@@ -357,7 +357,7 @@ export default function Trash() {
                         </div>
                       </div>
                       <div className="px-3 py-1 rounded-full bg-error/10 text-error text-xs font-medium">
-                        Supprimée
+                        {t("user.fr.deleted")}
                       </div>
                     </div>
 
@@ -371,7 +371,7 @@ export default function Trash() {
                       <div className="mb-4 p-3 bg-base-200 rounded-lg">
                         <div className="flex items-center gap-2 mb-1">
                           <User className="w-3 h-3 text-base-content/60" />
-                          <span className="text-sm font-medium">Expéditeur</span>
+                          <span className="text-sm font-medium">{t("user.fr.sender")}</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm">
                           <Mail className="w-3 h-3 text-base-content/60" />
@@ -430,7 +430,7 @@ export default function Trash() {
 
             {selectedItem.message && (
               <div className="mb-6 p-3 bg-base-200 rounded-lg">
-                <p className="text-sm font-medium mb-1">Contenu:</p>
+                <p className="text-sm font-medium mb-1">{t("user.fr.content")}:</p>
                 <p className="text-sm text-base-content/70">{selectedItem.message}</p>
               </div>
             )}
