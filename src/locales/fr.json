@@ -367,6 +367,7 @@
   },
   "corbeille": {
     "title": "🗑️ Corbeille",
+    "subtitle": "Gestion des élements supprimés par le client",
     "deletedOrders": "Commandes supprimées",
     "noDeletedOrders": "Aucune commande supprimée.",
     "deletedNotifications": "Notifications supprimées",
@@ -601,7 +602,7 @@
       "title": "Nos Produits",
       "placeholder": "Rechercher un produit...",
       "noProduct": "Aucun produit ne correspond à votre recherche.",
-      "price": "Tous les prix",
+      "price": "Prix des livres",
       "modal": {
         "format": "Formats",
         "custom": "Personnalisé",
@@ -841,7 +842,7 @@
     "send_email": "Envoyer un email",
     "no_profile_pic": "Aucune photo de profil",
     "download": "Télécharger",
-    "manage_deleted_items": "Gestion des éléments supprimés par les utilisateurs et administrateurs",
+    "manage_deleted_items": "Gestion des éléments supprimés par l'administrateur",
     "orders": "Commandes",
     "user_deleted_orders": "Les commandes supprimées par les utilisateurs apparaîtront ici",
     "deleted": "Supprimée",

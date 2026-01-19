@@ -855,10 +855,10 @@ export default function ProductList() {
 
                         <div className="p-6 space-y-6">
                             <div className="flex flex-col items-center justify-center border-2 border-dashed border-base-300 rounded-2xl p-8 bg-base-200/50">
-                                {selectedProduct.image ? (
+                                {selectedProduct.image_url ? (
                                     <div className="text-center">
                                         <img
-                                            src={selectedProduct.image}
+                                            src={selectedProduct.image_url}
                                             alt="Preview"
                                             className="w-48 h-48 object-cover rounded-xl mx-auto mb-4 shadow-lg"
                                         />

@@ -367,6 +367,7 @@
   },
   "corbeille": {
     "title": "🗑️ Fako",
+    "subtitle": "Fitantanana ireo zavatra voafafa nataon'ny mpanjifa",
     "deletedOrders": "Baiko voafafa",
     "noDeletedOrders": "Tsy misy baiko voafafa.",
     "deletedNotifications": "Fampahafantarana voafafa",
