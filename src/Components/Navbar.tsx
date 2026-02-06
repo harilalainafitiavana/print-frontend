@@ -461,7 +461,7 @@ export default function Navbar() {
                                 tabIndex={0}
                                 className="dropdown-content menu p-4 shadow bg-base-100 rounded-box w-52 right-0"
                             >
-                                <li>
+                                {/* <li>
                                     <div className="relative w-full">
                                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 z-10" size={20} />
                                         <input
@@ -472,7 +472,7 @@ export default function Navbar() {
                                             onChange={(e) => setSearch(e.target.value)}
                                         />
                                     </div>
-                                </li>
+                                </li> */}
                                 <li>
                                     <Link to="/login">
                                         <UserCheck />
@@ -480,9 +480,9 @@ export default function Navbar() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#">
+                                    <Link to="/register">
                                         <Globe />
-                                        {t("navbar.changerLangue")}
+                                        S'inscrire
                                     </Link>
                                 </li>
                                 <li>
