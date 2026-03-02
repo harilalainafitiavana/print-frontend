@@ -449,7 +449,7 @@ export default function Navbar() {
                         {/* Icône panier */}
                         <div className="flex items-center gap-1">
                             <ShoppingCart size={30} className="text-violet-500" />
-                            <span className="font-bold border-2 bg-violet-200 text-lg border-violet-500 px-2 py-0 rounded-full">{cartCount}</span>
+                            <span className="font-bold border-2 bg-violet-200 text-lg border-violet-500 px-2 py-0 rounded-full"></span>
                         </div>
 
                         {/* Menu mobile */}
