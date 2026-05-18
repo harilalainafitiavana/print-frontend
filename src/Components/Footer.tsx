@@ -35,16 +35,13 @@ export default function Footer() {
           <h3 className="text-xl font-bold text-violet-800 mb-3">{t("footer.quickLinksTitle")}</h3>
           <ul className="space-y-1 text-md">
             <li>
-              <Link to="/" className="hover:text-violet-800 transition flex items-center">{t("footer.quickLinks.home")}</Link>
+              <Link to="https://tubular-sprinkles-7cdfe0.netlify.app" className="hover:text-violet-800 transition flex items-center">{t("footer.quickLinks.home")}</Link>
             </li>
             <li>
-              <Link to="/#services" className="hover:text-violet-800 transition flex items-center">{t("footer.quickLinks.services")}</Link>
+              <Link to="/detaille" className="hover:text-violet-800 transition flex items-center">Nos produits</Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-violet-800 transition flex items-center">{t("footer.quickLinks.about")}</Link>
-            </li>
-            <li>
-              <Link to="/contact" className="hover:text-violet-800 transition flex items-center">{t("footer.quickLinks.contact")}</Link>
+              <Link to="/login" className="hover:text-violet-800 transition flex items-center">Commander</Link>
             </li>
           </ul>
         </div>
